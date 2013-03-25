@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView
+from django.utils import timezone
 
 from polls.models import Poll, Choice
 
 
 class Index(ListView):
-    queryset = Poll.objects.order_by()[:5]
+    queryset = Poll.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
 class Detail(DetailView):
