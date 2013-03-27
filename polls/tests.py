@@ -35,7 +35,6 @@ class PollViewTests(TestCase):
     def test_index_view_with_a_past_poll(self):
         poll = create_poll(question="Past poll.", days=-30)
         response = self.client.get(reverse('polls:index'))
-        print(response.context['poll_list'][0])
         self.assertEqual(response.context['poll_list'][0], poll)
 
     def test_index_view_with_a_future_poll(self):
