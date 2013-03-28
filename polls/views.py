@@ -6,16 +6,22 @@ from django.utils import timezone
 from polls.models import Poll, Choice
 
 
-class Index(ListView):
-    queryset = Poll.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
-
-
-class Detail(DetailView):
+class PollMixin(object):
+    queryset = Poll.objects.filter(pub_date__lte=timezone.now())
     model = Poll
 
 
-class Results(DetailView):
-    model = Poll
+class Index(PollMixin, ListView):
+
+    def get_queryset(self):
+        return self.queryset.order_by('-pub_date')[:5]
+
+
+class Detail(PollMixin, DetailView):
+    pass
+
+
+class Results(PollMixin, DetailView):
     template_name = 'polls/results.html'
 
 
