@@ -1,9 +1,13 @@
+{% load pagination_tags %}
+
 {% if poll_list %}
+    {% autopaginate poll_list 2 %}
     <ul>
         {% for poll in poll_list %}
             <li><a href="{% url 'polls:detail' poll.pk %}">{{ poll.question }}</a></li>
         {% endfor %}
     </ul>
+    {% paginate %}
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
